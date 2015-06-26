@@ -8,7 +8,7 @@ Parse.com is a powerful plateform that create the backend for the mobile develop
 Parse give us a data storage, push notifcation, hosting, cloud code etc.
 
 #Material Design
-At this am making this tutorial the latest version of Android is M. So we have to design a beautiful app, with NavigationView, Floating Action Button, CoordinatorLayout,
+At this time, am making this tutorial the latest version of Android is M. So we have to design a beautiful app, with NavigationView, Floating Action Button, CoordinatorLayout,
 Snackbar, Tabs, motion, and scrolling, Collapsing Toolbars, RecyclerView, etc.
 
 #Licence
