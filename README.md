@@ -1,6 +1,5 @@
 # MessengerNow
-This project is an android project developed by Ange Bagui from Les
-Teachers Du Net (Youtube Channel) with the video series about parse.com and material design.
+This project is an android project developed by Ange Bagui from LES TEACHERS DU NET (A [Youtube Channel](http://youtube.com/hounwanou1993) about programming and other fun stuff) with the video series about parse.com and material design.
 So we will show you how to develop a kind of whatsapp clone using Parse and the Android Design Support Library.
 
 #Parse
