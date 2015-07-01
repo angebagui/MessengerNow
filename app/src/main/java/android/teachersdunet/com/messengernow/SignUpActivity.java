@@ -11,58 +11,55 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.parse.LogInCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
-public class LoginActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
 
     EditText usernameEditText;
+    EditText emailEditText;
     EditText passwordEditText;
-    Button btnLogin;
-    Button btnRegister;
+    EditText passwordAgainEditText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_signup);
 
         usernameEditText = (EditText)findViewById(R.id.username_edit_text);
+        emailEditText = (EditText)findViewById(R.id.email_edit_text);
         passwordEditText = (EditText)findViewById(R.id.password_edit_text);
-        btnLogin = (Button)findViewById(R.id.login_button);
-        btnRegister = (Button)findViewById(R.id.register_button);
+        passwordAgainEditText = (EditText)findViewById(R.id.password_again_edit_text);
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signIn();
-            }
-        });
-        btnRegister.setOnClickListener(new View.OnClickListener() {
+        Button mActionButton = (Button)findViewById(R.id.register_button);
+        mActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signUp();
             }
         });
-
     }
 
     private void signUp() {
-        Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-        startActivity(intent);
 
-    }
-
-    private void signIn() {
         String username = usernameEditText.getText().toString().trim();
+        String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
+        String passwordAgain = passwordAgainEditText.getText().toString().trim();
 
         boolean validatorError = false;
         StringBuilder validationErrorMessage = new StringBuilder(getString(R.string.error_intro));
         if (username.length()==0){ // username est vide
             validatorError = true;
             validationErrorMessage.append(getString(R.string.error_blank_username));
+        }
+        if (email.length()==0){//email est vide
+            if (validatorError){
+                validationErrorMessage.append(getString(R.string.error_join));
+            }
+            validatorError = true;
+            validationErrorMessage.append(getString(R.string.error_blank_email));
         }
         if (password.length()==0){//password est vide
             if (validatorError){
@@ -71,46 +68,57 @@ public class LoginActivity extends AppCompatActivity {
             validatorError = true;
             validationErrorMessage.append(getString(R.string.error_blank_password));
         }
+        if (!password.equals(passwordAgain)){//password est different de passwordAgain
+            if (validatorError){
+                validationErrorMessage.append(getString(R.string.error_join));
+            }
+            validatorError = true;
+            validationErrorMessage.append(getString(R.string.error_password));
+        }
         validationErrorMessage.append(getString(R.string.error_end));
+
         if (validatorError){
             Toast.makeText(this, validationErrorMessage.toString(), Toast.LENGTH_LONG).show();
             return;
         }
 
-        //Notre progress dialog pendant la connexion
-        final ProgressDialog dialog = new ProgressDialog(LoginActivity.this);
-        dialog.setMessage(getString(R.string.progress_login));
+        //Notre progress dialog pendant l'insciption
+        final ProgressDialog dialog = new ProgressDialog(SignUpActivity.this);
+        dialog.setMessage(getString(R.string.progress_signup));
         dialog.show();
 
-        ParseUser.logInInBackground(username, password, new LogInCallback() {
-            public void done(ParseUser user, ParseException e) {
-                //Rendre invisible le progress dialog
+        // Creation un nouvelle utilisateur
+        ParseUser user = new ParseUser();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(email);
+
+        user.signUpInBackground(new SignUpCallback() {
+            public void done(ParseException e) {
+
+                //dismiss progress dialog
                 dialog.dismiss();
                 if (e != null) {
-                    // Afficher l'erreur
-                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    // Afficher message erreur
+                    Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
 
                 } else {
-                    // Lancement intent vers Dispatch Activity
-                    Intent intent = new Intent(LoginActivity.this, DispatchActivity.class);
+                   // Utilisateur inscrit avec succes donc lancement intent vers DispatchActivity
+                    Intent intent = new Intent(SignUpActivity.this, DispatchActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
             }
         });
 
-
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
+        getMenuInflater().inflate(R.menu.menu_sign_up, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
