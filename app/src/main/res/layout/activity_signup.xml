@@ -26,12 +26,20 @@
         android:ems="10"
         android:id="@+id/password_edit_text" />
 
-    <Button
+    <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_login"
-        android:layout_marginTop="@dimen/margin"
-        android:id="@+id/login_button" />
+        android:inputType="textPassword"
+        android:hint="@string/prompt_password_again"
+        android:ems="10"
+        android:id="@+id/password_again_edit_text" />
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:hint="@string/prompt_email"
+        android:ems="10"
+        android:id="@+id/email_edit_text" />
 
     <Button
         android:layout_width="fill_parent"
