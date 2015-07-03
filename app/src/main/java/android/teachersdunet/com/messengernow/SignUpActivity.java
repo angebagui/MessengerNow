@@ -82,7 +82,7 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        //Notre progress dialog pendant l'insciption
+        //Notre progress dialog pendant l'inscription
         final ProgressDialog dialog = new ProgressDialog(SignUpActivity.this);
         dialog.setMessage(getString(R.string.progress_signup));
         dialog.show();
